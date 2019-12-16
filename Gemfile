@@ -20,7 +20,15 @@ gem 'jbuilder', '~> 2.7'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.7'
+
+gem 'activemodel-serializers-xml'
+gem 'active_model_serializers'
+
+gem 'mongo_mapper'
+gem 'bson_ext'
+
+gem 'i18n-js'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
