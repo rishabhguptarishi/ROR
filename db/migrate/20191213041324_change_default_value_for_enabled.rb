@@ -4,6 +4,7 @@ class ChangeDefaultValueForEnabled < ActiveRecord::Migration[6.0]
   end
 
   def down
+    #FIXME_AB: change back to default null
     raise ActiveRecord::IrreversibleMigration
   end
 end
