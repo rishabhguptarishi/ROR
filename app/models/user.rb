@@ -1,7 +1,6 @@
 class User < ApplicationRecord
   after_destroy :ensure_an_admin_remains
   validates :name, presence: true, uniqueness: true
-  validates :email, uniqueness: true, format: {with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i}
   has_secure_password
 
   private
