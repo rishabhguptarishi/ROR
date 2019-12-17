@@ -4,6 +4,6 @@ class ChangeDefaultValueForEnabled < ActiveRecord::Migration[6.0]
   end
 
   def down
-    raise ActiveRecord::IrreversibleMigration
+    change_column_default :products, :enabled, nil
   end
 end
