@@ -5,12 +5,18 @@ one:
   description: MyText
   image_url: lorem.jpg
   price: 9.99
+  discount_price:
+  permalink:
+  enabled: true
 
 two:
   title: MyString
   description: MyText
   image_url: lorem.jpg
   price: 9.99
+  discount_price:
+  permalink:
+  enabled: true
 
 ruby:
   title: Programming Ruby 1.9
@@ -19,3 +25,6 @@ ruby:
                delivered fast, you should add Ruby to your toolbox.
   price: 49.50
   image_url: ruby.jpg
+  discount_price: 5.0
+  permalink: check-it-out
+  enabled: true
