@@ -19,21 +19,3 @@ class Product < ApplicationRecord
     end
   end
 end
-
-class UrlValidator < ActiveModel::EachValidator
-  def validate_each(record, attribute, value)
-    unless value =~ /\.(gif|jpg|png)\Z/i
-      record.errors[attribute] << (options[:message] || "Please supply a GIF, JPG or PNG Image URL")
-    end
-  end
-end
-
-class DiscountPriceValidator < ActiveModel::Validator
-  def validate(record)
-    if record.discount_price.present? && record.price.present?
-      record.errors[:discount_price] << 'Discount price must be less than price' unless record.price > record.discount_price
-    else
-      record.errors[:discount_price] << 'Please provide some discount price'
-    end
-  end
-end
