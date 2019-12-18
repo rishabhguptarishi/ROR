@@ -13,26 +13,26 @@ class Product < ActiveRecord::Base
   validates_with DiscountPriceValidator
   # validates :discount_price, numericality: { less_than: :price }, if: -> {price.present?}
 
-  private
-
-  def ensure_not_referenced_by_any_line_item
+  private def ensure_not_referenced_by_any_line_item
     unless line_items.empty?
       errors.add(:base, 'Line Items Present')
       throw :abort
     end
   end
 
-  def description_length
+  private def description_length
     description.strip.split(%r{\s})
   end
 
-  def ensure_title_exists
-    self.title = 'abc' unless title.present?
+  private def ensure_title_exists
+    if title.blank?
+      self.title = 'abc'
+    end
   end
 
-  def ensure_discount_price_exists
-    if price.present?
-      self.discount_price = price unless discount_price.present?
+  private def ensure_discount_price_exists
+    if price.present? && discount_price.blank?
+      self.discount_price = price
     end
   end
 end

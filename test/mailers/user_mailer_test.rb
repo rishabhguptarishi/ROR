@@ -1,8 +1,8 @@
 require 'test_helper'
 
 class UserMailerTest < ActionMailer::TestCase
-  test "created" do
-    mail = UserMailer.created
+  test "welcome_email" do
+    mail = UserMailer.welcome_email
     assert_equal "Created", mail.subject
     assert_equal ["to@example.org"], mail.to
     assert_equal ["from@example.com"], mail.from
