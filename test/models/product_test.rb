@@ -9,6 +9,8 @@ class ProductTest < ActiveSupport::TestCase
     assert product.errors[:description].any?
     assert product.errors[:price].any?
     assert product.errors[:image_url].any?
+    assert product.errors[:permalink].any?
+    assert product.errors[:discount_price].any?
   end
 
   test "product price must be positive" do
@@ -32,7 +34,7 @@ class ProductTest < ActiveSupport::TestCase
       title: "My Book Title",
       description: "yyy",
       price: 1,
-      image_url: image_ur
+      image_url: image_url
     )
   end
 
