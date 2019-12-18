@@ -2,8 +2,8 @@ class Product < ActiveRecord::Base
   has_many :line_items
   has_many :orders, :through => :line_items
   before_destroy :ensure_not_referenced_by_any_line_item
-  before_validation :initialize_title
-  before_validation :initialize_discount_price, if: -> {price.present?}
+  before_validation :ensure_title_exists
+  before_validation :ensure_discount_price_exists
   validates :price, presence: true
   validates :price, numericality: { greater_than_or_equal_to: 0.01 }, if: -> {price.present?}
   validates :title, uniqueness: { case_sensitive: false }
@@ -26,11 +26,13 @@ class Product < ActiveRecord::Base
     description.strip.split(%r{\s})
   end
 
-  def initialize_title
+  def ensure_title_exists
     self.title = 'abc' unless title.present?
   end
 
-  def initialize_discount_price
-    self.discount_price = price unless discount_price.present?
+  def ensure_discount_price_exists
+    if price.present?
+      self.discount_price = price unless discount_price.present?
+    end
   end
 end

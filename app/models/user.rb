@@ -7,21 +7,22 @@ class User < ApplicationRecord
   has_secure_password
 
   private
-    def ensure_an_admin_remains
-      if User.count.zero?
-        raise Error.new "Cant delete last user"
-      end
-    end
 
-    def welcome_user_mail
-      UserMailer.created(@user).deliver_later
+  def ensure_an_admin_remains
+    if User.count.zero?
+      raise Error.new "Cant delete last user"
     end
+  end
 
-    def check_user_email
-      if email == "admin@depot.com"
-        raise Error.new "Cant delete or update this user"
-      end
+  def welcome_user_mail
+    UserMailer.welcome_email(@user).deliver_later
+  end
+
+  def check_user_email
+    if email == "admin@depot.com"
+      raise Error.new "Cant delete or update this user"
     end
+  end
 end
 
 class Error < StandardError
