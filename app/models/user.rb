@@ -13,7 +13,7 @@ class User < ApplicationRecord
   end
 
   private def welcome_user_mail
-    UserMailer.welcome_email(@user).deliver_later
+    UserMailer.welcome_email(self).deliver_later
   end
 
   private def check_if_restricted_by_email
