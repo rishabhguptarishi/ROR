@@ -1,8 +1,8 @@
 require 'URI'
 class UrlValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
-    unless value =~ /\.(gif|jpg|png)\Z/i && value.match(URI.regexp)
-      record.errors[attribute] << (options[:message] || "Please supply a GIF, JPG or PNG Image URL")
+    unless value.match(URI.regexp)
+      record.errors[attribute] << (options[:message] || "must be a proper URL")
     end
   end
 end

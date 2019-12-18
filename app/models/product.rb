@@ -7,7 +7,7 @@ class Product < ApplicationRecord
   validates :title, presence: true, uniqueness: { case_sensitive: false }
   validates :permalink, uniqueness: { case_sensitive: false }, format: {with: /\A([[:alnum:]]+\-){2,}[[:alnum:]]+\Z/i}
   validates_length_of :description_length, minimum: 5, maximum: 5, too_short: "is too short must be atleast %{count} words", too_long: "must have at most %{count} words"
-  validates :image_url, presence: true, url: true
+  validates :image_url, presence: true, url: true, image: true
   validates_with DiscountPriceValidator
   # validates :discount_price, numericality: { less_than: :price }, if: -> {price.present?}
 
