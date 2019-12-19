@@ -4,7 +4,7 @@ require 'pago'
 class Order < ApplicationRecord
   include ActiveModel::Serializers::Xml
   has_many :line_items, dependent: :destroy
-  belongs_to :user, foreign_key: :email, primary_key: :email
+  belongs_to :user, optional: true
   enum pay_type: {
     "Check" => 0,
     "Credit card" => 1,

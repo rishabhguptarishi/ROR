@@ -6,7 +6,7 @@ class User < ApplicationRecord
   validates :name, presence: true, uniqueness: {case_sensitive: false}
   validates :email, presence: true, uniqueness: {case_sensitive: false}, format: { with: URI::MailTo::EMAIL_REGEXP }
   after_create_commit :welcome_user_mail
-  has_many :orders, primary_key: :email, foreign_key: :email
+  has_many :orders, dependent: :destroy
   has_secure_password
 
   private def ensure_an_admin_remains

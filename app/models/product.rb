@@ -1,7 +1,7 @@
 class Product < ActiveRecord::Base
   has_many :line_items, dependent: :restrict_with_exception
-  has_many :orders, :through => :line_items
-  has_many :carts, :through => :line_items
+  has_many :orders, through: :line_items
+  has_many :carts, through: :line_items
 #  before_destroy :ensure_not_referenced_by_any_line_item
   before_validation :ensure_title_exists
   before_validation :ensure_discount_price_exists

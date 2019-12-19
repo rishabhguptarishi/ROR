@@ -10,7 +10,7 @@
       <th>Created At</th>
     </thead>
     <tbody>
-      <% @user.orders.each do |order| %>
+      <% @orders.each do |order| %>
         <% order.line_items.each do |line_item| %>
         <tr>
           <td><%= line_item.product.title %></td>
