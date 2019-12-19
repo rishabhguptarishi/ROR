@@ -20,6 +20,10 @@ class Order < ApplicationRecord
     end
   end
 
+  def total_price
+    line_items.to_a.sum { |item| item.total_price }
+  end
+
   def charge!(pay_type_params)
     payment_details = {}
     payment_method = nil

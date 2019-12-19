@@ -1,6 +1,4 @@
-<% if notice %>
-  <aside id="notice"><%= notice %></aside>
-<% end %>
+<%= render "layouts/notice", notice: notice %>
 <h1>Your Orders</h1>
 <div>
   <% @orders.each do |order| %>
@@ -10,7 +8,7 @@
           <td><%= order.address %></td>
           <td><%= order.email %></td>
           <td><%= order.pay_type %></td>
-          <td><%= order.line_items.to_a.sum{ |item| item.total_price} %></td>
+          <td><%= number_to_currency(order.total_price) %></td>
         </tr>
       </tbody>
     </table>
@@ -27,7 +25,7 @@
           <tr>
             <td><%= line_item.product.title %></td>
             <td><%= line_item.quantity %></td>
-            <td><%= line_item.product.price %></td>
+            <td><%= number_to_currency(line_item.product.price) %></td>
           </tr>
       <% end %>
     </tbody>

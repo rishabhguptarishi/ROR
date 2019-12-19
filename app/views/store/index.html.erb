@@ -1,6 +1,4 @@
-<% if notice %>
-<aside id='notice'><%= notice %></aside>
-<% end %>
+<%= render "layouts/notice", notice: notice %>
 <h1><%= t('.title_html') %></h1>
 
 <ul class='catalog'>

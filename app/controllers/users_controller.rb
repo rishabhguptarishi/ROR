@@ -62,28 +62,21 @@ class UsersController < ApplicationController
     end
   end
 
-  def orders
-  end
-
-  def line_items
-  end
-
   rescue_from 'User::Error' do |exception|
     redirect_to users_url, notice: exception.message
   end
 
-  private
     # Use callbacks to share common setup or constraints between actions.
-    def set_user
+    private def set_user
       @user = User.find(params[:id])
     end
 
-    def set_current_user_orders
+    private def set_current_user_orders
       @orders = current_user.orders
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def user_params
+    private def user_params
       params.require(:user).permit(:name, :password, :password_confirmation, :email)
     end
 end

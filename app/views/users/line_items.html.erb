@@ -1,6 +1,4 @@
-<% if notice %>
-<aside id="notice"><%= notice %></aside>
-<% end %>
+<%= render "layouts/notice", notice: notice %>
 <h1>Your Line Items</h1>
   <table id="userLineItems">
     <thead>
@@ -15,8 +13,8 @@
         <tr>
           <td><%= line_item.product.title %></td>
           <td><%= line_item.quantity %></td>
-          <td><%= line_item.product.price %></td>
-          <td><%= line_item.created_at %></td>
+          <td><%= number_to_currency(line_item.product.price) %></td>
+          <td><%= distance_of_time_in_words_to_now(line_item.created_at) %></td>
         </tr>
         <% end %>
       <% end %>

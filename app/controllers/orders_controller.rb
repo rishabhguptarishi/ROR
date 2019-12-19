@@ -40,13 +40,11 @@ class OrdersController < ApplicationController
   # POST /orders.json
   def create
     @order = Order.new(order_params)
-    if current_user
-      current_user.orders << @order
-    end
+    current_user.orders << @order
     @order.add_line_items_from_cart(@cart)
     respond_to do |format|
       if @order.save
-        Cart.destroy(@cart.id)
+        @cart.destroy
         session[:cart_id] = nil
         ChargeOrderJob.perform_later(@order, pay_type_params.to_h)
         format.html { redirect_to store_index_url(locale: I18n.locale), notice: I18n.t('.thanks') }
