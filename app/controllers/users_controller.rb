@@ -61,6 +61,14 @@ class UsersController < ApplicationController
     end
   end
 
+  def orders
+    @user = User.find(session[:user_id])
+  end
+
+  def line_items
+    @user = User.find(session[:user_id])
+  end
+
   rescue_from 'User::Error' do |exception|
     redirect_to users_url, notice: exception.message
   end

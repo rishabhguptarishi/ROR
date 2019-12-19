@@ -1,7 +1,8 @@
 class Product < ActiveRecord::Base
-  has_many :line_items
+  has_many :line_items, dependent: :restrict_with_exception
   has_many :orders, :through => :line_items
-  before_destroy :ensure_not_referenced_by_any_line_item
+  has_many :carts, :through => :line_items
+#  before_destroy :ensure_not_referenced_by_any_line_item
   before_validation :ensure_title_exists
   before_validation :ensure_discount_price_exists
   validates :price, presence: true
@@ -13,12 +14,12 @@ class Product < ActiveRecord::Base
   validates_with DiscountPriceValidator
   # validates :discount_price, numericality: { less_than: :price }, if: -> {price.present?}
 
-  private def ensure_not_referenced_by_any_line_item
-    unless line_items.empty?
-      errors.add(:base, 'Line Items Present')
-      throw :abort
-    end
-  end
+#  private def ensure_not_referenced_by_any_line_item
+#    unless line_items.empty?
+#      errors.add(:base, 'Line Items Present')
+#      throw :abort
+#    end
+#  end
 
   private def description_length
     description.strip.split(%r{\s})
