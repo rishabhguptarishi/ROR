@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_current_user_orders, only: [:orders, :line_items]
 
   # GET /users
   # GET /users.json
@@ -65,14 +66,17 @@ class UsersController < ApplicationController
     redirect_to users_url, notice: exception.message
   end
 
-  private
     # Use callbacks to share common setup or constraints between actions.
-    def set_user
+    private def set_user
       @user = User.find(params[:id])
     end
 
+    private def set_current_user_orders
+      @orders = current_user.orders
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
-    def user_params
+    private def user_params
       params.require(:user).permit(:name, :password, :password_confirmation, :email)
     end
 end

@@ -1,6 +1,5 @@
 class OrdersController < ApplicationController
   include CurrentCart
-  skip_before_action :authorize, only: [:new, :create]
   before_action :set_cart, only: [:new, :create]
   before_action :ensure_cart_isnt_empty, only: :new
   before_action :set_order, only: [:show, :edit, :update, :destroy]
@@ -41,11 +40,11 @@ class OrdersController < ApplicationController
   # POST /orders.json
   def create
     @order = Order.new(order_params)
+    current_user.orders << @order
     @order.add_line_items_from_cart(@cart)
-
     respond_to do |format|
       if @order.save
-        Cart.destroy(session[:cart_id])
+        @cart.destroy
         session[:cart_id] = nil
         ChargeOrderJob.perform_later(@order, pay_type_params.to_h)
         format.html { redirect_to store_index_url(locale: I18n.locale), notice: I18n.t('.thanks') }

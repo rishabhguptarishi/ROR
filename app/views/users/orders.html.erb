@@ -1,0 +1,35 @@
+<%= render "layouts/notice", notice: notice %>
+<h1>Your Orders</h1>
+<div>
+  <% @orders.each do |order| %>
+    <table>
+      <tbody>
+        <tr>
+          <td><%= order.address %></td>
+          <td><%= order.email %></td>
+          <td><%= order.pay_type %></td>
+          <td><%= number_to_currency(order.total_price) %></td>
+        </tr>
+      </tbody>
+    </table>
+    <div>
+      <table>
+        <thead>
+          <th>Title</th>
+          <th>Quantity</th>
+          <th>Price</th>
+        </thead>
+        <tbody>
+      <% order.line_items.each do |line_item| %>
+
+          <tr>
+            <td><%= line_item.product.title %></td>
+            <td><%= line_item.quantity %></td>
+            <td><%= number_to_currency(line_item.product.price) %></td>
+          </tr>
+      <% end %>
+    </tbody>
+  </table>
+    </div>
+  <% end %>
+</div>

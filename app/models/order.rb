@@ -4,6 +4,7 @@ require 'pago'
 class Order < ApplicationRecord
   include ActiveModel::Serializers::Xml
   has_many :line_items, dependent: :destroy
+  belongs_to :user, optional: true
   enum pay_type: {
     "Check" => 0,
     "Credit card" => 1,
@@ -17,6 +18,10 @@ class Order < ApplicationRecord
       item.cart_id = nil
       line_items << item
     end
+  end
+
+  def total_price
+    line_items.to_a.sum { |item| item.total_price }
   end
 
   def charge!(pay_type_params)
