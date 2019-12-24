@@ -11,9 +11,7 @@ class Product < ActiveRecord::Base
   validates :permalink, uniqueness: { case_sensitive: false }, format: {with: /\A([[:alnum:]]+\-){2,}[[:alnum:]]+\Z/i}
   validates_length_of :description_length, minimum: 5, maximum: 5, too_short: "is too short must be atleast %{count} words", too_long: "must have at most %{count} words"
   validates :image_url, presence: true, url: true, image: true
-  scope :enabled_products, -> { where(enabled: true) }
-  scope :products_with_atleast_one_line_item, -> { find(LineItem.pluck(:product_id).uniq) }
-  scope :products_title_with_atleast_one_line_item, -> { products_with_atleast_one_line_item.pluck(:title) }
+  scope :enabled, -> { where(enabled: true) }
   validates_with DiscountPriceValidator
   # validates :discount_price, numericality: { less_than: :price }, if: -> {price.present?}
 
@@ -24,7 +22,14 @@ class Product < ActiveRecord::Base
 #    end
 #  end
 
+def self.having_atleast_one_line_item
+  find(LineItem.pluck(:product_id).uniq)
+  #find(LineItem.group(:product_id).having('count(*) >= 1').pluck(:product_id))
+end
 
+def self.title_having_atleast_one_line_item
+  having_atleast_one_line_item.pluck(:title)
+end
 
   private def description_length
     description.strip.split(%r{\s})
