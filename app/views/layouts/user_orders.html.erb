@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Your Orders</title>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+</head>
+
+<body>
+  <section class='content'>
+    <nav class ='side_nav'>
+      <% if @cart %>
+        <div id ='cart' class ='carts'>
+          <%= render_if @cart && @cart.line_items.any?, @cart %>
+        </div>
+      <% end %>
+      <% if session[:user_id] %>
+        <nav class="logged_in_nav">
+          <ul>
+            <li><%= link_to 'Orders', orders_path %></li>
+            <li><%= link_to 'Products', products_path %></li>
+            <li><%= link_to 'Users', users_path %></li>
+            <li><%= button_to 'Logout', logout_path, method: :delete %></li>
+          </ul>
+        </nav>
+      <% end %>
+    </nav>
+    <main class='user'>
+      <%= yield %>
+    </main>
+  </section>
+</body>
+</html>

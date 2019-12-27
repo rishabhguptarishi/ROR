@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :set_current_user_orders, only: [:orders, :line_items]
+  layout "user_orders", only: [:orders, :line_items]
 
   # GET /users
   # GET /users.json
@@ -16,10 +17,12 @@ class UsersController < ApplicationController
   # GET /users/new
   def new
     @user = User.new
+    @user.build_address
   end
 
   # GET /users/1/edit
   def edit
+    @user.build_address
   end
 
   # POST /users
@@ -77,6 +80,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     private def user_params
-      params.require(:user).permit(:name, :password, :password_confirmation, :email)
+      params.require(:user).permit(:name, :password, :password_confirmation, :email, address_attributes: [:id, :state, :city, :country, :pincode])
     end
 end

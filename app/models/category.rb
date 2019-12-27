@@ -16,7 +16,7 @@ class Category < ApplicationRecord
       self.products_count = products.count + sub_category_products.count
     else
       self.products_count = products.count
-      self.parent.products_count = parent.products.count + parent.sub_category_products.count
+      self.category.products_count = category.products.count + category.sub_category_products.count
     end
   end
 end
