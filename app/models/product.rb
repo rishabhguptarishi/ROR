@@ -36,14 +36,14 @@ class Product < ActiveRecord::Base
 
   private def change_products_count_for_category
     if saved_change_to_category_id
-      Category.find(category_id).change_products_count
+      category.reset_products_count
       previous_category = Category.find(category_id_before_last_save)
-      previous_category.change_products_count if previous_category
+      previous_category.reset_products_count if previous_category
     end
   end
 
   private def decrease_products_count_for_category
-    Category.find(category_id).change_products_count
+    category.reset_products_count
   end
 
   private def description_length
