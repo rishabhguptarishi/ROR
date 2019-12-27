@@ -2,6 +2,9 @@ class Product < ActiveRecord::Base
   has_many :line_items, dependent: :restrict_with_exception
   has_many :orders, through: :line_items
   has_many :carts, through: :line_items
+  belongs_to :category
+  after_save :change_products_count_for_category
+  after_destroy :decrease_products_count_for_category
 #  before_destroy :ensure_not_referenced_by_any_line_item
   before_validation :ensure_title_exists
   before_validation :ensure_discount_price_exists
@@ -15,21 +18,33 @@ class Product < ActiveRecord::Base
   validates_with DiscountPriceValidator
   # validates :discount_price, numericality: { less_than: :price }, if: -> {price.present?}
 
-#  private def ensure_not_referenced_by_any_line_item
-#    unless line_items.empty?
-#      errors.add(:base, 'Line Items Present')
-#      throw :abort
-#    end
-#  end
+  #  private def ensure_not_referenced_by_any_line_item
+  #    unless line_items.empty?
+  #      errors.add(:base, 'Line Items Present')
+  #      throw :abort
+  #    end
+  #  end
 
-def self.having_atleast_one_line_item
-  find(LineItem.pluck(:product_id).uniq)
-  #find(LineItem.group(:product_id).having('count(*) >= 1').pluck(:product_id))
-end
+  def self.having_atleast_one_line_item
+    where(id: LineItem.pluck(:product_id).uniq)
+    #find(LineItem.group(:product_id).having('count(*) >= 1').pluck(:product_id))
+  end
 
-def self.title_having_atleast_one_line_item
-  having_atleast_one_line_item.pluck(:title)
-end
+  def self.title_having_atleast_one_line_item
+    having_atleast_one_line_item.pluck(:title)
+  end
+
+  private def change_products_count_for_category
+    if saved_change_to_category_id
+      Category.find(category_id).change_products_count
+      previous_category = Category.find(category_id_before_last_save)
+      previous_category.change_products_count if previous_category
+    end
+  end
+
+  private def decrease_products_count_for_category
+    Category.find(category_id).change_products_count
+  end
 
   private def description_length
     description.strip.split(%r{\s})
