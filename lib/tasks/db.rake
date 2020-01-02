@@ -7,4 +7,9 @@ namespace :db do
     #end
     Product.where(category_id: nil).update_all(category_id: first_category.id)
   end
+
+  desc "set user as admin"
+  task :set_user_as_admin,[:email] => :environment do |task, args|
+    User.where(email: args.email).update_all(role: 'admin')
+  end
 end

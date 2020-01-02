@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Orders</h1>
+<%= form_with(action: 'index', method: 'post', local:true) do %>
+  <span>Start Date: <%= select_date Date.today, prefix: :start_date %></span>
+  <span>End Date: <%= select_date Date.today, prefix: :end_date %></span>
+  <%= submit_tag "Filter" %>
+<% end %>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Address</th>
+      <th>Email</th>
+      <th>Pay type</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @orders.each do |order| %>
+      <tr>
+        <td><%= order.name %></td>
+        <td><%= order.address %></td>
+        <td><%= order.email %></td>
+        <td><%= order.pay_type %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
