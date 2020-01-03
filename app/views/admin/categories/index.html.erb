@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Categories</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Parent Category</th>
+      <th>Products Count</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @categories.each do |category| %>
+      <tr>
+        <td><%= link_to category.name, admin_category_books_path(category) %></td>
+        <td><% if category.category %>
+          <%= category.category.name %>
+        <% end %></td>
+        <td><%= category.products_count %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

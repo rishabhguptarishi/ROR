@@ -1,0 +1,9 @@
+<% if notice %>
+  <aside id="notice"><%= notice %></aside>
+<% end %>
+<h1>Products</h1>
+<table>
+  <tbody>
+    <%= render 'list', product: @product %>
+  </tbody>
+</table>

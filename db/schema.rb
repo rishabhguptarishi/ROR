@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_27_073211) do
+ActiveRecord::Schema.define(version: 2020_01_02_122615) do
 
   create_table "action_mailbox_inbound_emails", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "status", default: 0, null: false
@@ -132,6 +132,9 @@ ActiveRecord::Schema.define(version: 2019_12_27_073211) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "email"
     t.string "test_reversible"
+    t.string "role", default: "user", null: false
+    t.string "language", default: "English", null: false
+    t.datetime "last_activity_at"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
