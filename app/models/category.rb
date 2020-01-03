@@ -21,6 +21,6 @@ class Category < ApplicationRecord
   end
 
   def all_products
-    products << sub_category_products
+    products + sub_category_products
   end
 end

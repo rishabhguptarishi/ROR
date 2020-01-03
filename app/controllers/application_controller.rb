@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
 
 
   def current_user
-    @@current_user ||= nil
+    @current_user ||= nil
   end
 
   def hit_counter
@@ -19,11 +19,11 @@ class ApplicationController < ActionController::Base
 
     def check_inactivity_period
       if current_user
-        if Time.now - current_user.last_activity_at >= 5.minutes
+        if current_user.should_force_logout?
           reset_session
           redirect_to store_index_url, notice: "Logged Out"
         else
-          current_user.update(last_activity_at: Time.now)
+          current_user.update_last_activity
         end
       end
     end
@@ -34,8 +34,8 @@ class ApplicationController < ActionController::Base
     end
 
     def authorize
-      @@current_user = User.find_by(id: session[:user_id])
-      unless @@current_user
+      @current_user = User.find_by(id: session[:user_id])
+      unless @current_user
         redirect_to login_url, notice: "Please login"
       end
     end

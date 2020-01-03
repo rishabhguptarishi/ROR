@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
     user = User.find_by(name: params[:name])
     if user.try(:authenticate, params[:password])
       session[:user_id] = user.id
-      user.update(last_activity_at: Time.now)
+      user.update_last_activity
       if user.admin?
         redirect_to admin_reports_path
       else

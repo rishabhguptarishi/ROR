@@ -30,6 +30,14 @@ class User < ApplicationRecord
   def admin?
     role == 'admin'
   end
+
+  def should_force_logout?
+    Time.now - last_activity_at >= 5.minutes
+  end
+
+  def update_last_activity
+    update(last_activity_at: Time.now)
+  end
 end
 
 class Error < StandardError
