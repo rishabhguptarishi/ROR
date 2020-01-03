@@ -26,6 +26,10 @@ class User < ApplicationRecord
       raise Error.new "Cant delete or update this user"
     end
   end
+
+  def admin?
+    role == 'admin'
+  end
 end
 
 class Error < StandardError

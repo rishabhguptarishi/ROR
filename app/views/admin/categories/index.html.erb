@@ -15,17 +15,11 @@
     <% @categories.each do |category| %>
       <tr>
         <td><%= link_to category.name, admin_category_books_path(category) %></td>
-        <% if category.category %>
-          <td><%= category.category.name %></td>
-        <% else %>
-          <td></td>
-        <% end %>
+        <td><% if category.category %>
+          <%= category.category.name %>
+        <% end %></td>
         <td><%= category.products_count %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New User', new_user_path %>

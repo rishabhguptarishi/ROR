@@ -19,4 +19,8 @@ class Category < ApplicationRecord
       self.category.products_count = category.products.count + category.sub_category_products.count
     end
   end
+
+  def all_products
+    products << sub_category_products
+  end
 end
