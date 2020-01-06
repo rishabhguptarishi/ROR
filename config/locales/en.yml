@@ -30,7 +30,14 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
+  active_record:
+    errors:
+      messages:
+        blank: "cannot be blank"
   thanks: "Thank you for your order"
+  users:
+    create:
+      notice: 'User was successfully created with name %{name}'
   orders:
     new:
       legend: "Please Enter Your Details"
@@ -77,3 +84,6 @@ en:
     index:
       title_html: "Your Pragmatic Catalog"
       add_html: "Add to Cart"
+  order_mailer:
+    recieved:
+      subject: "Order has been recieved"

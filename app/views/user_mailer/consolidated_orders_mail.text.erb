@@ -1,0 +1,6 @@
+Dear <%= @user.name %>
+Your all orders till <%= Time.current %>
+
+<%= @user.orders.each do |order| %>
+  <%= render order.line_items %>
+<% end %>

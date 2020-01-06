@@ -4,7 +4,7 @@
     <%= image_tag(product.image_url, class: 'list_image') %>
   </td>
   <td class="description">
-    <h1><%= product.title %></h1>
+    <h1><%= product.title %></h1><h4><%= product.average_rating %></h4>
     <p>
       <%= truncate(strip_tags(product.description),
         length: 80) %>

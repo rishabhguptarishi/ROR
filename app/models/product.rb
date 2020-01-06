@@ -2,6 +2,7 @@ class Product < ActiveRecord::Base
   has_many :line_items, dependent: :restrict_with_exception
   has_many :orders, through: :line_items
   has_many :carts, through: :line_items
+  has_many :ratings
   belongs_to :category
   after_save :change_products_count_for_category
   after_destroy :decrease_products_count_for_category
@@ -32,6 +33,18 @@ class Product < ActiveRecord::Base
 
   def self.title_having_atleast_one_line_item
     having_atleast_one_line_item.pluck(:title)
+  end
+
+  def existing_rating(user_id)
+    ratings.user_rating(user_id)
+  end
+
+  def average_rating
+    rating = ratings.average(:rating)
+    if rating
+      return "#{rating}/5"
+    end
+    "not rated"
   end
 
   private def change_products_count_for_category

@@ -20,7 +20,10 @@
   <%= @product.price %>
 </p>
 
+<%= select_tag "ratings", options_for_select( (0..5).step(0.5).map{|n| n%1 == 0 ? n.to_i : n} ), include_blank: 'Select option', data: {remote: true, url: set_ratings_product_path, method: 'put'} %>
 
 
 <%= link_to 'Edit', edit_product_path(@product) %> |
 <%= link_to 'Back', products_path %>
+
+<%= javascript_pack_tag 'ratings_helper'%>

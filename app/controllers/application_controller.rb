@@ -21,6 +21,7 @@ class ApplicationController < ActionController::Base
       if current_user
         if current_user.should_force_logout?
           reset_session
+          I18n.locale = I18n.default_locale
           redirect_to store_index_url, notice: "Logged Out"
         else
           current_user.update_last_activity

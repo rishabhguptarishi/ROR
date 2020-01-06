@@ -7,6 +7,7 @@ class SessionsController < ApplicationController
     user = User.find_by(name: params[:name])
     if user.try(:authenticate, params[:password])
       session[:user_id] = user.id
+      I18n.locale = user.language || I18n.default_locale
       user.update_last_activity
       if user.admin?
         redirect_to admin_reports_path
@@ -20,6 +21,7 @@ class SessionsController < ApplicationController
 
   def destroy
     session[:user_id] = nil
+    I18n.locale = I18n.default_locale
     redirect_to store_index_url, notice: "Logged Out"
   end
 end

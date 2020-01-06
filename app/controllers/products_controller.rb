@@ -14,7 +14,7 @@ class ProductsController < ApplicationController
   # GET /products
   # GET /products.json
   def index
-    @products = Product.all
+    @products = Product.all.includes(:ratings)
   end
 
   # GET /products/1
@@ -79,6 +79,27 @@ class ProductsController < ApplicationController
     filepath = Rails.root.join('public', 'uploads', uploaded_file.original_filename)
     File.open(filepath, 'wb') do |file|
       file.write(uploaded_file.read)
+    end
+  end
+
+  def set_ratings
+    @product = Product.where(id: params[:id]).includes(:ratings).first
+    rating = @product.existing_rating(current_user.id)
+    respond_to do |format|
+      if rating.any?
+        if rating.update(rating: params[:ratings].to_f)
+          format.json { render json: {:product => @product} }
+        else
+          format.json { render json: @product.errors, status: :unprocessable_entity }
+        end
+      else
+        rating = Rating.new(rating: params[:ratings].to_f, user_id: current_user.id, product_id: params[:id])
+        if rating.save
+          format.json { render json: {:product => @product} }
+        else
+          format.json { render json: @product.errors, status: :unprocessable_entity }
+        end
+      end
     end
   end
 

@@ -1,0 +1,7 @@
+<h3>Your Orders</h3>
+<%= @user.orders.each do |order| %>
+<table>
+  <tr><th colspan="2">Qty</th><th>Description</th></tr>
+  <%= render order.line_items -%>
+</table>
+<% end %>

@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     end
     resources :products, :path => 'books' do
       get :who_bought, on: :member
+      put 'set_ratings' => 'products#set_ratings', on: :member
     end
 
     namespace :admin do
