@@ -1,7 +1,7 @@
 class Rating < ApplicationRecord
   belongs_to :user
   belongs_to :product
-  scope :user_rating, -> (user) { where(user_id: user.id) }
+  scope :user_rating, -> (user) { where(user: user) }
   after_save :update_product_average_rating
   #after_update :update_product_average_rating
 
