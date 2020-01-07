@@ -14,7 +14,7 @@ class ProductsController < ApplicationController
   # GET /products
   # GET /products.json
   def index
-    @products = Product.all.includes(:ratings)
+    @products = Product.all
   end
 
   # GET /products/1
@@ -84,23 +84,22 @@ class ProductsController < ApplicationController
 
   def set_ratings
     @product = Product.where(id: params[:id]).includes(:ratings).first
-    rating = @product.existing_rating(current_user.id)
+    rating = @product.existing_rating(current_user)
+    response = {}
+    if rating.present? && rating.update(rating: params[:ratings].to_f)
+      response[:product] = @product
+    elsif rating.empty? && @product.ratings.create(rating: params[:rating].to_f, user: current_user)
+      response[:product] = @product
+    end
+
     respond_to do |format|
-      if rating.any?
-        if rating.update(rating: params[:ratings].to_f)
-          format.json { render json: {:product => @product} }
-        else
-          format.json { render json: @product.errors, status: :unprocessable_entity }
-        end
+      if response.present?
+        format.json { render json: response }
       else
-        rating = Rating.new(rating: params[:ratings].to_f, user_id: current_user.id, product_id: params[:id])
-        if rating.save
-          format.json { render json: {:product => @product} }
-        else
-          format.json { render json: @product.errors, status: :unprocessable_entity }
-        end
+        format.json { render json: @product.errors, status: :unprocessable_entity }
       end
     end
+
   end
 
   private

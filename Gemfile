@@ -32,6 +32,8 @@ gem 'i18n-js'
 
 gem 'jquery-rails'
 
+gem 'basic_presenter'
+
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
