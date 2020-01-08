@@ -8,6 +8,7 @@
         <li>
           <%= image_tag(product.image_url) %>
           <h2><%= product.title %></h2>
+          <h4><%= product.presenter.average_rating_display %></h4>
           <p>
             <%= sanitize(product.description) %>
           </p>

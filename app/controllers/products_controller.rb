@@ -82,6 +82,26 @@ class ProductsController < ApplicationController
     end
   end
 
+  def set_ratings
+    @product = Product.where(id: params[:id]).includes(:ratings).first
+    rating = @product.existing_rating(current_user)
+    response = {}
+    if rating.present? && rating.update(rating: params[:ratings].to_f)
+      response[:product] = @product
+    elsif rating.empty? && @product.ratings.create(rating: params[:rating].to_f, user: current_user)
+      response[:product] = @product
+    end
+
+    respond_to do |format|
+      if response.present?
+        format.json { render json: response }
+      else
+        format.json { render json: @product.errors, status: :unprocessable_entity }
+      end
+    end
+
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_product

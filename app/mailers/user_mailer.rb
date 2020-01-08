@@ -10,4 +10,9 @@ class UserMailer < ApplicationMailer
 
     mail to: @user.email, subject: 'Welcome'
   end
+
+  def consolidated_orders_mail(user)
+    @user = user
+    mail to: @user.email, subject: 'All Orders till date'
+  end
 end

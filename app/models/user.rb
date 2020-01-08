@@ -8,6 +8,7 @@ class User < ApplicationRecord
   after_create_commit :welcome_user_mail
   has_many :orders, dependent: :destroy
   has_one :address, dependent: :destroy
+  has_many :ratings
   accepts_nested_attributes_for :address, allow_destroy: true
   has_secure_password
 
