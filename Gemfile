@@ -33,7 +33,7 @@ gem 'i18n-js'
 gem 'jquery-rails'
 
 gem 'basic_presenter'
-gem 'sidekiq', '~>6.0.0'
+gem 'sidekiq', '~>6.2.1'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
